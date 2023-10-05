@@ -25,19 +25,19 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Get)('/'),
+    (0, common_1.Post)('login'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getTest", null);
 __decorate([
-    (0, common_1.Post)('/'),
+    (0, common_1.Post)('signup'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getSignUp", null);
 exports.AuthController = AuthController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

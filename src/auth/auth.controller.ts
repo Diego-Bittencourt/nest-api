@@ -1,18 +1,18 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
-//decorator @Controller and the class declaration
-@Controller()
+//its ia good practice to add a route in the @Controller argument like below
+@Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
     //in the constructor, we inject the service files creating an instance of it inside the controller
 
-    @Get('/')
+    @Post('login')
     getTest() {
         return this.authService.login()
     }
 
-    @Post('/')
+    @Post('signup')
     getSignUp() {
         return this.authService.signup()
     }
