@@ -8,12 +8,12 @@ export class AuthController {
     //in the constructor, we inject the service files creating an instance of it inside the controller
 
     @Post('login')
-    getTest() {
+    login() {
         return this.authService.login()
     }
 
     @Post('signup')
-    getSignUp() {
+    signup() {
         return this.authService.signup()
     }
 }
