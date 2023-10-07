@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 //its ia good practice to add a route in the @Controller argument like below
@@ -13,7 +13,8 @@ export class AuthController {
     }
 
     @Post('signup')
-    signup() {
+    signup(@Req() req: Request) {
+        console.log(req)
         return this.authService.signup()
     }
 }
