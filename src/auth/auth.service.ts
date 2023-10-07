@@ -14,6 +14,8 @@ export class AuthService {
    }
 
    signup() {
+      //Nestjs uses DTO, data transfer objects, you can run validation on the DTO and 
+      //its 'shape' to make sure it has the expected format
     return 'signed up'
    }
 }
