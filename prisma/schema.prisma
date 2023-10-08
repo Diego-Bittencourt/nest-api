@@ -16,12 +16,17 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email String
+  email String @unique //the unique decorator makes the field unique, which means it is 
+                        //not possible to create another row with the same email.
   hash  String
 
   firstName String?
   lastName  String?
   // the question mark signalizes it is an optional field
+
+  bookmarks Bookmark[]
+
+  @@map("users")
 }
 
 model Bookmark {
@@ -32,6 +37,16 @@ model Bookmark {
   title       String
   description String?
   link        String
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  //in the code above, I'm creating a relations manytoone
+  //the fields is the field inside this table, the foreign key
+  //and the references is an array of primary key, in the other table, 
+  //to connect with this table.
+  //to update the schema, run npx prisma migrate dev
+
+  @@map("bookmarks")
 }
 
 
