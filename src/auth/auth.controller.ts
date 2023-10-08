@@ -15,8 +15,7 @@ export class AuthController {
 
     @Post('signup')
     signup(@Body() dto: AuthDto) {
-        //installing the class validator
-        //npm install class-validator class-transformer
+        console.log(dto)
         return this.authService.signup()
     }
 }

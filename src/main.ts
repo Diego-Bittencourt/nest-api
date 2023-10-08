@@ -4,11 +4,14 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe())
-  //to use class validation with decorators like IsNotEmpty() and IsString()
-  //without the statement above, the class validators don't work.
-  //with the class validation, nestjs will generate a descritive response if
-  //the request doesn't fit the dto requirements
+  app.useGlobalPipes(new ValidationPipe(
+    {
+      whitelist: true,
+    }
+  ))
+  //the ValidationPipe can remove fields not expected in your dto with whitelist:true
+  //this is interesting to avoid inserting malicious variables into your code.
+  //with this alteration, only the expected fields are passed through
   await app.listen(3333);
 }
 bootstrap();
