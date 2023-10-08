@@ -28,13 +28,11 @@ export class AuthService {
             email: dto.email,
             hash: hash
          },
-         select: {
-            //select what columns I want
-            id: true,
-            email: true,
-            createdAt: true
-         }
+        
       })
+
+      delete user.hash //this is a temporary solution to remove the hash, 
+      //because the select approach is verbose
       //return the saved user
    return user;
    //the user object doesn't have the hash password because it was not included in the select statement
