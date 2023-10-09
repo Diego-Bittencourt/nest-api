@@ -9,8 +9,8 @@ export class AuthController {
     //in the constructor, we inject the service files creating an instance of it inside the controller
 
     @Post('login')
-    login() {
-        return this.authService.login()
+    login(@Body() dto: AuthDto) {
+        return this.authService.login(dto)
     }
 
     @Post('signup')

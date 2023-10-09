@@ -11,8 +11,33 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class AuthService {
    constructor(private prisma: PrismaService) {}
 
-   login() {
-    return 'logged in'
+   async login(dto: AuthDto) {
+      const { email, password } = dto
+
+      const user = await this.prisma.user.findUnique({
+         select: {
+            email:true,
+            hash: true,
+
+         },
+         where: {
+            email,
+         }
+      })
+
+      const registeredPassword = await argon.verify(user.hash, password)
+
+      console.log(registeredPassword)
+
+      if (registeredPassword ) {
+         return 'logged in'
+      } else {
+         return 'not logged in'
+      }
+      
+      
+      
+      return 'logged in'
 
    }
 
