@@ -1,9 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { User, Bookmark } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 //prisma generate the typescript types automatically
 
 //the Injectable decorator (for service) and the class declaration
@@ -14,31 +15,33 @@ export class AuthService {
    async login(dto: AuthDto) {
       const { email, password } = dto
 
+      //fint the user by email
       const user = await this.prisma.user.findUnique({
-         select: {
-            email:true,
-            hash: true,
-
-         },
+         //returns null if can't find it
          where: {
-            email,
+            email
          }
       })
 
-      const registeredPassword = await argon.verify(user.hash, password)
-
-      console.log(registeredPassword)
-
-      if (registeredPassword ) {
-         return 'logged in'
-      } else {
-         return 'not logged in'
+      
+      
+      //if user does not exist, throw exception
+      if (!user) {
+         throw new NotFoundException("Credentials incorrect")
       }
-      
-      
-      
-      return 'logged in'
 
+
+      //compare password
+      const isPwMatch = await argon.verify(user.hash, password)
+
+      //if password incorrect throw exception
+      if (!isPwMatch) {
+         throw new UnauthorizedException("Wrong password")
+      }
+
+      //send back the user
+      delete user.hash;
+      return user;
    }
 
    async signup(dto: AuthDto) {
