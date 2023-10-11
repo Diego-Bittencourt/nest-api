@@ -37,6 +37,8 @@ export class JwtStrategy extends PassportStrategy(
 
         delete user.hash
         return user
+        //if the user is null, in case the user doesn't exist in the db, 
+        //there would be thrown an authentication error anyways. 
     }
 
 }
