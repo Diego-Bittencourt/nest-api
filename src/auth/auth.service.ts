@@ -4,12 +4,10 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { User, Bookmark } from "@prisma/client";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../prisma/prisma.service";
 import { AuthDto } from "./dto";
 import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { ExceptionsHandler } from "@nestjs/core/exceptions/exceptions-handler";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 //prisma generate the typescript types automatically
