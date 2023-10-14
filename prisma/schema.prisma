@@ -39,12 +39,10 @@ model Bookmark {
   link        String
 
   userId Int
-  user User @relation(fields: [userId], references: [id])
-  //in the code above, I'm creating a relations manytoone
-  //the fields is the field inside this table, the foreign key
-  //and the references is an array of primary key, in the other table, 
-  //to connect with this table.
-  //to update the schema, run npx prisma migrate dev
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ //I added onDelete: Cascade to make the delete process follows from bookmark to user
+ //there is a alternative that make sure the bookmark are deleted before in the proccess
+ //after adding that, it would be necessary to perform migrations
 
   @@map("bookmarks")
 }
