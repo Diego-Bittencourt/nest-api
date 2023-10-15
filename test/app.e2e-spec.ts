@@ -107,12 +107,32 @@ describe("App e2e", () => {
           .post("auth/login")
           .withBody(dto)
           .expectStatus(200)
+          .stores('userToken', 'access_token'); //the stores() function can be used to get some data from the
+                                                //response and save it in a variable to be used again, like the bearer token
+                                                //the first argument is the variable name and the second is the property in the response
       });
     });
   });
 
   describe("User", () => {
-    describe("Get me", () => {});
+    it("It should not work", () => {
+      return pactum
+      .spec()
+      .get('user/me')
+      .expectStatus(401)
+
+    });
+
+    it("It should work", () => {
+      return pactum
+      .spec()
+      .get('user/me')
+      .withBearerToken('$S{userToken}') 
+      //there is a special syntax to have access to the token stored with pactum
+      //you create a string normally and add $S{}. inside the curly brackets, add the variable created with stores()
+      .expectStatus(200)
+      .inspect()
+    });
 
     describe("Edit user", () => {}); 
   });
