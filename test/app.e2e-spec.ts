@@ -138,7 +138,15 @@ describe("App e2e", () => {
   });
 
   describe("Bookmark", () => {
-    describe("Create bookmark", () => {});
+    describe("Create bookmark", () => {
+      it("it should create a bookmark", () => {
+        return panctum
+        .spec()
+        .post('bookmark')
+        .withBearerToken('${userToken}')
+        .expectStatus(200)
+      })
+    });
 
     describe("Get bookmark", () => {});
 
