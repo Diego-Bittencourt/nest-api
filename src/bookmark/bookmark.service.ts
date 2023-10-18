@@ -1,6 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateBookmarkDto } from "./dto";
+import { EditBookmarkDto } from "./dto/editBookmark.dto";
 
 @Injectable()
 export class BookmarkService {
@@ -28,5 +29,35 @@ export class BookmarkService {
     async getAllBookmarks() {
         const allBookmarks = await this.prisma.bookmark.findMany()
         return allBookmarks
+    }
+
+    async editBookmark(userId: number, editBookmarkDto: EditBookmarkDto) {
+        const bookmarkById = await this.prisma.bookmark.findUnique({
+            where: {
+                id: editBookmarkDto.bookmarkId
+            }
+        })
+
+        if (userId !== bookmarkById.userId) {
+            throw new ForbiddenException('You are not the creator of this bookmar')
+        }
+
+        const newDate = new Date()
+
+        const bookmarkId = bookmarkById.id
+        delete bookmarkById.id
+        delete editBookmarkDto.bookmarkId
+        
+        const updatedBookmark = {...bookmarkById, ...editBookmarkDto, updatedAt: newDate}
+
+        const returnedEditedBookmark = await this.prisma.bookmark.update({
+            where: {
+                id: bookmarkId
+            },
+            data: updatedBookmark
+        })
+
+        return returnedEditedBookmark
+
     }
 }

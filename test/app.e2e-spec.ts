@@ -159,6 +159,14 @@ describe("App e2e", () => {
         .expectStatus(200)
         .expectBodyContains('title: *')
       })
+
+      it("it should not work", () => {
+        return pactum
+        .spec()
+        .get('bookmark')
+        .expectStatus(400)
+        .inspect()
+      })
     });
 
     describe("Edit bookmark", () => {});
