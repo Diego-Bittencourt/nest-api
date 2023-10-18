@@ -14,11 +14,16 @@ export class BookmarkController {
 
     @Get()
     getAllBookmarksFromUser(@GetUser('id') userId: number) {
-        
+        return this.bookmarkService.getBookmarkFromUser(userId)
     }
 
     @Post()
     createBookmark(@Body() createBookmarkDto: CreateBookmarkDto) {
         return this.bookmarkService.createBookmark(createBookmarkDto)
+    }
+
+    @Get('all')
+    getAllBookmarks() {
+        return this.bookmarkService.getAllBookmarks()
     }
 }

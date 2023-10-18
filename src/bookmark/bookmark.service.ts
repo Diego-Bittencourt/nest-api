@@ -14,4 +14,19 @@ export class BookmarkService {
         })
         return createBookmark
     }
+
+    async getBookmarkFromUser(userId: number) {
+        const bookmarks = await this.prisma.bookmark.findMany({
+            where: {
+                userId
+            }
+        })
+
+        return bookmarks
+    }
+
+    async getAllBookmarks() {
+        const allBookmarks = await this.prisma.bookmark.findMany()
+        return allBookmarks
+    }
 }

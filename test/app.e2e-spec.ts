@@ -140,7 +140,7 @@ describe("App e2e", () => {
   describe("Bookmark", () => {
     describe("Create bookmark", () => {
       it("it should create a bookmark", () => {
-        return panctum
+        return pactum
         .spec()
         .post('bookmark')
         .withBearerToken('${userToken}')
@@ -148,9 +148,18 @@ describe("App e2e", () => {
       })
     });
 
-    describe("Get bookmark", () => {});
+    describe("Get all bookmark", () => {});
 
-    describe("Get bookmark by id", () => {});
+    describe("Get bookmark by id", () => {
+      it("it should retrieve bookmarks by user", () => {
+        return pactum
+        .spec()
+        .get('bookmark')
+        .withBearerToken('${userToken}')
+        .expectStatus(200)
+        .expectBodyContains('title: *')
+      })
+    });
 
     describe("Edit bookmark", () => {});
 
