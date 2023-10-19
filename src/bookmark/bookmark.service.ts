@@ -60,4 +60,33 @@ export class BookmarkService {
         return returnedEditedBookmark
 
     }
+
+    async deleteBookmark(bookmarkId: number, userId: number) {
+
+        console.log(bookmarkId, userId)
+        const bookmark = await this.prisma.bookmark.findUnique({
+            where: {
+                id: bookmarkId,
+                userId: userId
+            }
+        })
+
+        console.log("bookmark", bookmark)
+        if (bookmark != null) {
+            const deletedBookmark = this.prisma.bookmark.delete({
+                where: {
+                    id: bookmarkId
+                }
+            })
+
+            return {
+                status: 'success',
+                ...deletedBookmark
+            }
+        } else {
+            throw new ForbiddenException('The bookmark doesn\'t exist, or you are not the owner')
+        }
+
+        
+    }
 }
